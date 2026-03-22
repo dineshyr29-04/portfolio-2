@@ -169,15 +169,31 @@ if (window.innerWidth > 1024) {
     scrollTrigger: {
       trigger: '.projects-wrapper',
       pin: true,
-      scrub: 2, // Slower, more fluid scrub
+      scrub: 3, // Even slower and more fluid
       snap: {
         snapTo: 1 / (projectSlides.length - 1),
-        duration: { min: 0.5, max: 1.5 },
+        duration: { min: 0.8, max: 2.0 }, // Slower snap
         delay: 0.2,
         ease: 'power2.inOut'
       },
       end: () => "+=" + (projectSlides.length * window.innerWidth)
     }
+  });
+
+  // Parallax Effect for content inside slides
+  projectSlides.forEach((slide) => {
+    const info = slide.querySelector('.project-info');
+    gsap.to(info, {
+      x: -150, // Move content slightly opposite to scroll
+      ease: 'none',
+      scrollTrigger: {
+        trigger: slide,
+        containerAnimation: horizontalTween,
+        start: 'left right',
+        end: 'right left',
+        scrub: true
+      }
+    });
   });
 
   // Project Number Animation inside horizontal scroll
